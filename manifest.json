@@ -1,0 +1,27 @@
+{
+  "name": "Scraping Reto1",
+  "description": "Scrape Multiple profile and store in MongoDB",
+  "manifest_version": 3,
+  "version": "1.0",
+  "content_scripts": [
+    {
+      "matches": ["https://www.linkedin.com/*"],
+      "js": ["./contentscript.js"]
+    }
+  ],
+  "action":{
+    "default_popup": "App/index.html",
+    "default_icon": {
+      "32": "./Icons/32.png",
+      "48": "./Icons/48.png"
+    }
+  },
+  "background":{
+    "service_worker": "App/background.js"
+  },
+  "permissions": ["activeTab","scripting"],
+  "icons": {
+    "32": "./Icons/32.png",
+    "48": "./Icons/48.png"
+  }
+}
