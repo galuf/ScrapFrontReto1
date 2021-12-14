@@ -19,7 +19,7 @@
   "background":{
     "service_worker": "App/background.js"
   },
-  "permissions": ["activeTab","scripting"],
+  "permissions": ["activeTab","scripting","storage"],
   "icons": {
     "32": "./Icons/32.png",
     "48": "./Icons/48.png"

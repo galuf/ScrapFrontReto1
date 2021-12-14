@@ -1,5 +1,3 @@
-let tabSelected = null;
-let contador = 0;
 chrome.runtime.onMessage.addListener(async function (
   request,
   sender,
@@ -12,10 +10,8 @@ chrome.runtime.onMessage.addListener(async function (
       active: true,
       currentWindow: true,
     });
-    tabSelected = tab.id;
+    await chrome.storage.sync.set({ id: tab.id });
     await chrome.tabs.update(tab.id, { url: action });
-    contador += 1;
-    console.log(contador);
     console.log("entre a update url");
   } else {
     await isOver();
@@ -25,14 +21,18 @@ chrome.runtime.onMessage.addListener(async function (
 });
 
 chrome.tabs.onUpdated.addListener(async function (tabId, changeInfo, tab) {
-  console.log(tabId == tabSelected);
-  console.log(`espero OnUpdate ${tabId} -> ${tabSelected}`);
-  if (tabId == tabSelected) {
+  let { id } = await chrome.storage.sync.get("id");
+  console.log("id", id);
+  console.log(tabId == id);
+  console.log(`espero OnUpdate ${tabId} -> ${id}`);
+
+  if (tabId == id) {
     if (changeInfo.status == "complete") {
       await scrapingProfile();
-      tabSelected = null;
+      await chrome.storage.sync.set({ id: null });
     }
   }
+
   return true;
 });
 
